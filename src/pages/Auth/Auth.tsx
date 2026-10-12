@@ -7,6 +7,7 @@ import { createUser, getUserByusername } from "../../services/user-service";
 
 import "./Auth.css";
 import type { AuthMode } from "../../types/auth-mode";
+import { AxiosError } from "axios";
 
 export function Auth() {
   const navigate = useNavigate();
@@ -46,10 +47,10 @@ export function Auth() {
       login(response);
 
       navigate("/", { replace: true });
-    } catch (err) {
+    } catch (error) {
       const message =
-        err instanceof Error
-          ? err.message
+        error instanceof AxiosError
+          ? error.response?.data.message
           : "Não foi possível realizar a operação.";
 
       setError(message);
