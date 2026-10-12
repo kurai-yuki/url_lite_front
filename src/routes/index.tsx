@@ -3,22 +3,20 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Auth } from "../pages/Auth/Auth";
 import { Home } from "../pages/Home/Home";
 import { Redirect } from "../pages/Redirect/Redirect";
-import { useAuth } from "../hooks/useAuth";
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-}
+import { ProtectedRoute } from "./ProtectedRoute";
+import { IsLoggedProtection } from "./IsLoggedProtection";
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<Auth />} />
+      <Route
+        path="/login"
+        element={
+          <IsLoggedProtection>
+            <Auth />
+          </IsLoggedProtection>
+        }
+      />
 
       <Route
         path="/"
